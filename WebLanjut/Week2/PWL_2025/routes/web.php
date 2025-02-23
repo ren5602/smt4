@@ -32,3 +32,15 @@ Route::get('/selamatdatang', function () {
 Route::get('about', function () {
     return ('NIM: 2341720237<br>Nama: Muhammad Nur aziz');
 });
+
+Route::get('/user/{name}', function ($name) {
+    return 'Nama saya ' . $name;
+});
+
+Route::get('/posts/{post}/comments/{comment}', function ($postId, $commentId) {
+    return 'Pos ke-' . $postId . " Komentar ke-: " . $commentId;
+});
+
+Route::get('articles/{articleid}', function ($articleId) {
+    return 'Halaman Artikel dengan ID ke-' . $articleId;
+});
