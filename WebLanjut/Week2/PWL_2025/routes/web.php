@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\HomeController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,23 +28,23 @@ Route::get('/hello', function () {
 */
 Route::get('/hello', [WelcomeController::class,'hello']);
 
-Route::get('/world', function () {
-    return 'World';
-});
+// Route::get('/world', function () {
+//     return 'World';
+// });
 
 /** 
 Route::get('/selamatdatang', function () {
     return 'Selamat Datang';
 });
 */
-Route::get('/index', [WelcomeController::class,'index']);
+// Route::get('/index', [WelcomeController::class,'index']);
 
 /** 
 Route::get('about', function () {
     return ('NIM: 2341720237<br>Nama: Muhammad Nur aziz');
 });
 */
-Route::get('about', [WelcomeController::class,'about']);
+// Route::get('about', [WelcomeController::class,'about']);
 
 // Route Parameter
 Route::get('/user/{name}', function ($name) {
@@ -55,7 +59,7 @@ Route::get('articles/{articleid}', function ($articleId) {
     return 'Halaman Artikel dengan ID ke-' . $articleId;
 });
 */
-Route::get('articles/{articleid}', [WelcomeController::class,'articles']);
+// Route::get('articles/{articleid}', [WelcomeController::class,'articles']);
 
 // Route Parameter Optional
 /**  
@@ -67,3 +71,7 @@ Route::get('articles/{articleid}', [WelcomeController::class,'articles']);
 Route::get('/user/{name?}', function ($name = 'John') {
     return 'Nama saya ' . $name;
 });
+// modifikasi route controller
+Route::get('/index', [HomeController::class,'index']);
+Route::get('articles/{articleid}', [ArticleController::class,'articles']);
+Route::get('about', [AboutController::class,'about']);
