@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+// basic route
 Route::get('/', function () {
     return view('welcome');
 });
@@ -33,6 +33,7 @@ Route::get('about', function () {
     return ('NIM: 2341720237<br>Nama: Muhammad Nur aziz');
 });
 
+// Route Parameter
 Route::get('/user/{name}', function ($name) {
     return 'Nama saya ' . $name;
 });
@@ -43,4 +44,15 @@ Route::get('/posts/{post}/comments/{comment}', function ($postId, $commentId) {
 
 Route::get('articles/{articleid}', function ($articleId) {
     return 'Halaman Artikel dengan ID ke-' . $articleId;
+});
+
+// Route Parameter Optional
+/**  
+ Route::get('/user/{name?}', function ($name = null) {
+    return 'Nama saya ' . $name;
+});
+ */
+
+Route::get('/user/{name?}', function ($name = 'John') {
+    return 'Nama saya ' . $name;
 });
