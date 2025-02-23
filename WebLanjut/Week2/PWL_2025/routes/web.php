@@ -79,3 +79,14 @@ Route::resource('photos', PhotoController::class);
 //     'update',
 //     'destroy'
 // ]);
+
+// Membuat view
+// Route::get('/greeting', function () {
+//     return view('hello', ['name' => 'Aziz']);
+// });
+// modifikasi view directory
+// Route::get('/greeting', function () {
+//     return view('blog.hello', ['name' => 'Aziz']);
+// });
+// modifikasi view via controller
+Route::get('/greeting', [WelcomeController::class,'greeting']);
