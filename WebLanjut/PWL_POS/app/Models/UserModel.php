@@ -14,10 +14,10 @@ class UserModel extends Model
     protected $primaryKey = 'user_id'; // mendefinisikan primary key
 
     //praktikum week 4
-    // protected $fillable = ['level_id', 'username', 'nama', 'password'];
-    protected $fillable = [
-        'level_id',
-        'username',
-        'nama'
-    ];
+    protected $fillable = ['level_id', 'username', 'nama', 'password'];
+    // protected $fillable = [
+    //     'level_id',
+    //     'username',
+    //     'nama'
+    // ];
 }
