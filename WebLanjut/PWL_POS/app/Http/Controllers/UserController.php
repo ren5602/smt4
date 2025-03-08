@@ -10,6 +10,7 @@ class UserController extends Controller
 {
     public function index()
     {
+        //praktikum week-3
         // $data = [
         //     'username' => 'customer-1',
         //     'nama' => 'Pelanggan',
@@ -20,9 +21,15 @@ class UserController extends Controller
 
         // Tambah Data user dengan Eloquent Model
         $data = [
-            'nama' => 'Pelanggan Pertama',
+            'level_id' => 2,
+            'username' => 'manager_tiga',
+            'nama' => 'Manager 3',
+            // 'nama' => 'Pelanggan Pertama', // week 3
+            'password' => Hash::make('12345'),
         ];
-        UserModel::where('username', 'customer-1')->update($data); //update data user
+        UserModel::create($data);
+
+        // UserModel::where('username', 'customer-1')->update($data); //update data user (week 3)
         // akses model UserModel
         $user = UserModel::all();
         return view('user', ['data' => $user]);
