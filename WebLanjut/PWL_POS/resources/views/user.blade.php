@@ -69,6 +69,12 @@
             <td>ID</td>
             <td>Username</td>
             <td>Nama</td>
+
+            {{-- week 4 prak 2.7 --}}
+            <td>Kode Level</td>
+            <td>Nama Level</td>
+            
+            {{-- week 4 prak 2.6 --}}
             <td>ID Level Pengguna</td>
             <td>Aksi</td>
         </tr>
@@ -78,6 +84,12 @@
                 <td>{{ $d->username }}</td>
                 <td>{{ $d->nama }}</td>
                 <td>{{ $d->level_id }}</td>
+
+                {{-- week 4 prak 2.7 --}}
+                <td>{{ $d->level->level_kode }}</td>
+                <td>{{ $d->level->level_nama }}</td>
+
+                {{-- week 4 prak 2.6 --}}
                 <td><a href="/user/ubah/{{ $d->user_id }}">Ubah</a> |
                     <a href="/user/hapus/{{ $d->user_id }}">Hapus</a>
                 </td>

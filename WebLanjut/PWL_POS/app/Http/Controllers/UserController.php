@@ -114,8 +114,12 @@ class UserController extends Controller
         // $user->wasChanged('nama'); // false 
         // dd($user->wasChanged(['nama', 'username'])); // true
 
-        // Praktikum 2.6 – Create, Read, Update, Delete (CRUD)
-        $user = UserModel::all();
+        // week 4 Praktikum 2.6 – Create, Read, Update, Delete (CRUD)
+        // $user = UserModel::all();
+        // return view('user', ['data' => $user]);
+
+        // week 4 Praktikum 2.7 – Relationships
+        $user = UserModel::with('level')->get();
         return view('user', ['data' => $user]);
     }
     // week 4 Praktikum 2.6 – Create, Read, Update, Delete (CRUD)
