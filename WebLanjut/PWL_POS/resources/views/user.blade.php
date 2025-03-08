@@ -27,8 +27,8 @@
         </tr>
         @endforeach --}}
 
-        {{-- week 4 --}}
-        <tr>
+        {{-- week 4 prak 1-2.2--}}
+        {{-- <tr>
             <th>ID</th>
             <th>Username</th>
             <th>Nama</th>
@@ -39,7 +39,16 @@
             <td>{{ $data->username }}</td>
             <td>{{ $data->nama }}</td>
             <td>{{ $data->level_id }}</td>
+        </tr> --}}
+
+        {{-- week 4 prak 2.3 --}}
+        {{-- <tr>
+            <th>jumlah pengguna</th>
         </tr>
+        <tr>
+            <td>{{ $data }}</td>
+        </tr> --}}
+        
     </table>
 </body>
 
