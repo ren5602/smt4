@@ -32,4 +32,9 @@ Route::get('/user/hapus/{id}', [UserController::class, 'hapus']);
 
 // week 5 praktikum 3
 Route::get('/kategori/create', [KategoriController::class, 'create']);
-Route::post('/kategori/create', [KategoriController::class, 'store']);
+Route::post('/kategori/', [KategoriController::class, 'store']);
+Route::get('/kategori/edit/{id}', [KategoriController::class, 'edit']);
+Route::post('/kategori/edit', [KategoriController::class, 'update']);
+Route::get('/kategori/hapus/{id}', [KategoriController::class, 'delete']);
+
+
