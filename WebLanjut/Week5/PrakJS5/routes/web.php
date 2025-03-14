@@ -29,3 +29,7 @@ Route::post('/user/tambah_simpan', [UserController::class, 'tambah_simpan']);
 Route::get('/user/ubah/{id}', [UserController::class, 'ubah']);
 Route::put('/user/ubah_simpan/{id}', [UserController::class, 'ubah_simpan']);
 Route::get('/user/hapus/{id}', [UserController::class, 'hapus']);
+
+// week 5 praktikum 3
+Route::get('/kategori/create', [KategoriController::class, 'create']);
+Route::post('/kategori/create', [KategoriController::class, 'store']);
