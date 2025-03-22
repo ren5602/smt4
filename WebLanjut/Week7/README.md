@@ -1,4 +1,4 @@
-# JS 5B
+# JS5B
 PERTANYAAN
 1.	Apa perbedaan frontend template dengan backend template? 
 •	Frontend template berfokus pada tampilan
