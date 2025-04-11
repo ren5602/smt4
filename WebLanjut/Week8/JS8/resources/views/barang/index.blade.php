@@ -5,7 +5,10 @@
         <div class="card-header">
             <h3 class="card-title">Daftar Barang</h3>
             <div class="card-tools">
-                <button onclick="modalAction('{{ url('/barang/import') }}')" class="btn btn-info">Import Barang</button>
+                <button onclick="modalAction('{{ url('/barang/import') }}')" class="btn btn-info">
+                    Import Barang
+                </button>
+                <a href="{{ url('/barang/export_excel') }}" class="btn btn-primary"><i class="fa fa-fileexcel"></i>Export Barang</a>
                 <a href="{{ url('/barang/create') }}" class="btn btn-primary">
                     Tambah Data
                 </a>
@@ -95,7 +98,7 @@
                 }, {
                     data: "barang_nama",
                     className: "",
-                    width: "37%",
+                    width: "30%",
                     orderable: true,
                     searchable: true,
                 }, {
@@ -125,7 +128,7 @@
                 }, {
                     data: "aksi",
                     className: "text-center",
-                    width: "14%",
+                    width: "20%",
                     orderable: false,
                     searchable: false
                 }]
