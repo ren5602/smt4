@@ -9,6 +9,9 @@
                 <button onclick="modalAction('{{ url('kategori/create_ajax') }}')" class="btn btn-sm btn-success mt-1">
                     Tambah Ajax
                 </button>
+                <button onclick="modalAction('{{ url('kategori/import') }}')" class="btn btn-sm btn-info">
+                    Import Kategori
+                </button>
             </div>
         </div>
         <div class="card-body">

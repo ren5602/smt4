@@ -9,6 +9,9 @@
                 <button onclick="modalAction('{{ url('user/create_ajax') }}')" class="btn btn-sm btn-success mt-1">
                     Tambah Ajax
                 </button>
+                <button onclick="modalAction('{{ url('user/import') }}')" class="btn btn-sm btn-info mt-1">
+                    Import User
+                </button>
             </div>
         </div>
         <div class="card-body">
