@@ -12,7 +12,10 @@
                 <button onclick="modalAction('{{ url('user/import') }}')" class="btn btn-sm btn-info">
                     Import User
                 </button>
-                <a href="{{ url('/user/export_excel') }}" class="btn btn-sm btn-primary"><i class="fa fa-fileexcel"></i>
+                <a href="{{ url('/user/export_excel') }}" class="btn btn-sm btn-primary"><i class="fa fa-file-excel"></i>
+                    Export User
+                </a>
+                <a href="{{ url('/barang/export_pdf') }}" class="btn btn-sm btn-warning"><i class="fa fa-file-pdf"></i>
                     Export User
                 </a>
             </div>
