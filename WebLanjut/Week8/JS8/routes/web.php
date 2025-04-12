@@ -20,10 +20,10 @@ Route::post('register', [AuthController::class, 'postregister']);
 
 Route::middleware(['auth'])->group(function () { // artinya semua route di dalam group ini harus login dulu 
     // masukkan semua route yang perlu autentikasi di sini 
+    // HOME
+    Route::get('/', [WelcomeController::class, 'index']);
 });
 
-// HOME
-Route::get('/', [WelcomeController::class, 'index']);
 
 // LEVEL
 // artinya semua route di dalam group ini harus punya role ADM (Administrator)
