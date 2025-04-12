@@ -16,7 +16,7 @@ class UserModel extends Authenticatable
     protected $primaryKey = 'user_id'; // mendefinisikan primary key
 
     //praktikum week 4
-    protected $fillable = ['level_id', 'username', 'nama', 'password', 'created_at', 'updated_at'];
+    protected $fillable = ['level_id', 'username', 'nama', 'password', 'created_at', 'updated_at', 'picture_path'];
     //praktikum week 7b
     protected $hidden = ['password']; // jangan di tampilkan saat select 
     protected $casts = ['password' => 'hashed']; // casting password agar otomatis di hash

@@ -17,7 +17,8 @@
         </div>
     </div>
 @else
-    <form action="{{ url('/user/' . $user->user_id . '/update_ajax') }}" method="POST" id="form-edit">
+    <form action="{{ url('/user/' . $user->user_id . '/update_ajax') }}" method="POST" id="form-edit"
+        enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
@@ -29,13 +30,35 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div class="form-group text-center">
+                        <div class="d-flex flex-column align-items-center mb-3">
+                            <strong class="mb-2">Upload Foto Profil</strong>
+                            <label class="position-relative" for="profile_picture">
+                                <div style="width: 120px; height: 120px; position: relative;">
+                                    <img id="preview-image" src="{{ $user->picture_path ?? asset('default-profile.jpg') }}"
+                                        alt="Foto Profil" class="rounded-circle"
+                                        style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+
+                                    <div class="overlay rounded-circle"
+                                        style="opacity: 0; transition: opacity 0.15s; cursor: pointer; position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                                        onmouseover="this.style.opacity = 1;" onmouseout="this.style.opacity = 0;">
+                                        <i class="fas fa-upload position-absolute text-white"
+                                            style="top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <input type="file" name="profile_picture" id="profile_picture" class="d-none"
+                            accept="image/jpeg, image/jpg, image/png">
+                        <small id="error-profile_picture" class="error-text form-text text-danger"></small>
+                    </div>
                     <div class="form-group">
                         <label>Level Pengguna</label>
                         <select name="level_id" id="level_id" class="form-control" required>
                             <option value="">- Pilih Level -</option>
                             @foreach ($level as $l)
-                                <option value="{{ $l->level_id }}"
-                                    {{ $l->level_id == $user->level_id ? 'selected' : '' }}>{{ $l->level_nama }}</option>
+                                <option value="{{ $l->level_id }}" {{ $l->level_id == $user->level_id ? 'selected' : '' }}>
+                                    {{ $l->level_nama }}</option>
                             @endforeach
                         </select>
                         <small id="error-level_id" class="error-text form-text text-danger"></small>
@@ -87,14 +110,22 @@
                     password: {
                         minlength: 6,
                         maxlength: 20
+                    },
+                    profile_picture: {
+                        required: false,
+                        accept: 'image/jpeg, image/jpg, image/png',
+                        filesize: 2048
                     }
                 },
                 submitHandler: function(form) {
                     $.ajax({
                         url: form.action,
                         type: form.method,
-                        data: $(form).serialize(),
+                        data: new FormData(form),
+                        processData: false,
+                        contentType: false,
                         success: function(response) {
+                            // console.log(response);
                             if (response.status) {
                                 $('#myModal').modal('hide');
                                 Swal.fire({
@@ -130,6 +161,12 @@
                     $(element).removeClass('is-invalid');
                 }
             });
+        });
+        document.getElementById("profile_picture").addEventListener("change", function() {
+            const [file] = this.files;
+            if (file) {
+                document.getElementById("preview-image").src = URL.createObjectURL(file);
+            }
         });
     </script>
 @endempty

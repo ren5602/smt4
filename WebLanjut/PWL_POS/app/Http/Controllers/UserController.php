@@ -78,7 +78,7 @@ class UserController extends Controller
 
         return view('user.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'activeMenu' => $activeMenu]);
     }
-    
+
     // Ajax ver
     public function create_ajax()
     {
@@ -87,29 +87,42 @@ class UserController extends Controller
         return view('user.create_ajax')
             ->with('level', $level);
     }
-    
+
     // Menyimpan data user baru
     public function store(Request $request)
     {
-        $request->validate([
-            // username harus diisi, berupa string, minimal 3 karakter, dan bernilai unik di tabel m_user kolom username
-            'username' => 'required|string|min:3|unique:m_user,username',
-            // nama harus diisi, berupa string, dan maksimal 100 karakter
-            'nama' => 'required|string|max:100',
-            // password harus diisi dan minimal 5 karakter
-            'password' => 'required|min:5',
+        $rules = [
             // level_id harus diisi dan berupa angka
-            'level_id' => 'required|integer',
-        ]);
+            'level_id' => ['required', 'integer'],
+            // username harus diisi, berupa string, minimal 3 karakter, dan bernilai unik di tabel m_user kolom username
+            'username' => [
+                'required',
+                'max:20',
+                'unique:m_user,username',
+            ],
+            // nama harus diisi, berupa string, dan maksimal 100 karakter
+            'nama' => ['required', 'max:100'],
+            // profile tidak wajib diisi
+            'profile_picture' => ['nullable', 'image', 'max:2048'],
+            // password harus diisi dan minimal 5 karakter
+            'password' => ['required', 'min:6', 'max:20']
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
-        UserModel::create([
-            'username' => $request->username,
-            'nama' => $request->nama,
-            // password dienkripsi sebelum disimpan
-            'password' => bcrypt($request->password),
-            'level_id' => $request->level_id,
-        ]);
-
+        $data = $request->all();
+        if ($request->hasFile('profile_picture')) {
+            $id = UserModel::all()->max('user_id') + 1;
+            $image = $request->file('profile_picture');
+            $imageName = 'profile-' . $id . '.webp';
+            $image->storeAs('public/profile_pictures', $imageName);
+            $data['picture_path'] = 'storage/profile_pictures/' . $imageName;
+            unset($data['profile_picture']);
+        }
         return redirect('/user')->with('success', 'Data user berhasil disimpan');
     }
     public function store_ajax(Request $request)
@@ -117,10 +130,20 @@ class UserController extends Controller
         // cek apakah request berupa ajax
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
-                'level_id' => 'required|integer',
-                'username' => 'required|string|min:3|unique:m_user,username',
-                'nama' => 'required|string|max:100',
-                'password' => 'required|min:6'
+                // level_id harus diisi dan berupa angka
+                'level_id' => ['required', 'integer'],
+                // username harus diisi, berupa string, minimal 3 karakter, dan bernilai unik di tabel m_user kolom username
+                'username' => [
+                    'required',
+                    'max:20',
+                    'unique:m_user,username',
+                ],
+                // nama harus diisi, berupa string, dan maksimal 100 karakter
+                'nama' => ['required', 'max:100'],
+                // profile tidak wajib diisi
+                'profile_picture' => ['nullable', 'image', 'max:4096'],
+                // password harus diisi dan minimal 5 karakter
+                'password' => ['required', 'min:6', 'max:20']
             ];
 
             // use Illuminate\Support\Facades\Validator;
@@ -132,6 +155,16 @@ class UserController extends Controller
                     'message' => 'Validasi Gagal',
                     'msgField' => $validator->errors() // pesan error validasi
                 ]);
+            }
+
+            $data = $request->all();
+            if ($request->hasFile('profile_picture')) {
+                $id = UserModel::all()->max('user_id') + 1;
+                $image = $request->file('profile_picture');
+                $imageName = 'profile-' . $id . '.webp';
+                $image->storeAs('public/profile_pictures', $imageName);
+                $data['picture_path'] = 'storage/profile_pictures/' . $imageName;
+                unset($data['profile_picture']);
             }
 
             UserModel::create($request->all());
@@ -206,12 +239,20 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            // username harus diisi, berupa string, minimal 3 karakter,
-            // dan bernilai unik di tabel user kolom username kecuali untuk user dengan id yang sedang diedit
-            'username' => 'required|string|min:3|unique:m_user,username,' . $id . ',user_id',
-            'nama' => 'required|string|max:100', // nama harus diisi, berupa string, dan maksimal 100 karakter
-            'password' => 'nullable|min:5', // password bisa diisi (minimal 5 karakter) dan bisa tidak diisi
-            'level_id' => 'required|integer' // level_id harus diisi dan berupa angka
+            // level_id harus diisi dan berupa angka
+            'level_id' => ['required', 'integer'],
+            // username harus diisi, berupa string, minimal 3 karakter, dan bernilai unik di tabel m_user kolom username
+            'username' => [
+                'required',
+                'max:20',
+                'unique:m_user,username',
+            ],
+            // nama harus diisi, berupa string, dan maksimal 100 karakter
+            'nama' => ['required', 'max:100'],
+            // profile tidak wajib diisi
+            'profile_picture' => ['nullable', 'image', 'max:4096'],
+            // password harus diisi dan minimal 5 karakter
+            'password' => ['required', 'min:6', 'max:20']
         ]);
 
         UserModel::find($id)->update([
@@ -228,10 +269,20 @@ class UserController extends Controller
         // cek apakah request dari ajax
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
-                'level_id' => 'required|integer',
-                'username' => 'required|max:20|unique:m_user,username,' . $id . ',user_id',
-                'nama' => 'required|max:100',
-                'password' => 'nullable|min:6|max:20'
+                // level_id harus diisi dan berupa angka
+                'level_id' => ['required', 'integer'],
+                // username harus diisi, berupa string, minimal 3 karakter, dan bernilai unik di tabel m_user kolom username
+                'username' => [
+                    'required',
+                    'max:20',
+                    'unique:m_user,username,'. $id . ',user_id',
+                ],
+                // nama harus diisi, berupa string, dan maksimal 100 karakter
+                'nama' => ['required', 'max:100'],
+                // profile tidak wajib diisi
+                'profile_picture' => ['nullable', 'image', 'max:4096'],
+                // password harus diisi dan minimal 5 karakter
+                'password' => ['nullable','min:6', 'max:20']
             ];
 
             // use Illuminate\Support\Facades\Validator;
@@ -251,7 +302,16 @@ class UserController extends Controller
                     $request->request->remove('password');
                 }
 
-                $check->update($request->all());
+                $data = $request->all();
+                if ($request->hasFile('profile_picture')) {
+                    $image = $request->file('profile_picture');
+                    $imageName = 'profile-' . $id . '.webp';
+                    $image->storeAs('public/profile_pictures', $imageName);
+                    $data['picture_path'] = 'storage/profile_pictures/' . $imageName;
+                    unset($data['profile_picture']);
+                }
+
+                $check->update($data);
                 return response()->json([
                     'status' => true,
                     'message' => 'Data berhasil diupdate'
@@ -282,7 +342,7 @@ class UserController extends Controller
             return redirect('/user')->with('error', 'Data user gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
         }
     }
-    
+
     public function confirm_ajax(string $id)
     {
         $user = UserModel::find($id);
