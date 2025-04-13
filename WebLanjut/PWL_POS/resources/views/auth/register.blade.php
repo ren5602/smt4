@@ -24,10 +24,10 @@
     <div class="register-box">
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="{{ url('/register') }}" class="h1"><b>Admin</b>LTE</a>
+                <a href="{{ url('/register') }}" class="h1"><b>PWL</b>POS</a>
             </div>
             <div class="card-body">
-                <p class="login-box-msg">Register a new account</p>
+                <p class="login-box-msg">Daftar sini bang</p>
                 <form action="{{ url('register') }}" method="POST" id="form-register">
                     @csrf
                     <div class="input-group mb-3">
@@ -80,7 +80,7 @@
                         {{-- <small id="error-level_id" class="error-text form-text text-danger"></small> --}}
                     </div>
                     <div class="row">
-                        <div class="col-4 offset-8">
+                        <div class="col-12 text-center">
                             <button type="submit" class="btn btn-primary btn-block">Register</button>
                         </div>
                     </div>
