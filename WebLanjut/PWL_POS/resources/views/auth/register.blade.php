@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('dark-mode.css') }}">
 </head>
 
 <body class="hold-transition register-page">
@@ -87,6 +88,9 @@
                 <p class="mt-3 mb-0">
                     Already have an account? <a href="{{ url('login') }}" class="text-center">Login Here</a>
                 </p>
+                <div class="text-center mt-3">
+                    <button id="dark-mode-toggle" class="btn btn-outline-secondary btn-sm">🌙 Dark Mode</button>
+                </div>
             </div>
         </div>
     </div>
@@ -193,6 +197,23 @@
                     $(element).removeClass('is-invalid');
                 }
             });
+        });
+        const toggleBtn = document.getElementById('dark-mode-toggle');
+        const body = document.body;
+
+        // Cek preferensi pengguna sebelumnya
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+        }
+
+        toggleBtn.addEventListener('click', function() {
+            body.classList.toggle('dark-mode');
+            // Simpan preferensi
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
         });
     </script>
 </body>
