@@ -4,11 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class UserModel extends Authenticatable
+class UserModel extends Authenticatable implements JWTSubject
 {
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
     //praktikum week 3
     use HasFactory;
 
@@ -16,14 +26,20 @@ class UserModel extends Authenticatable
     protected $primaryKey = 'user_id'; // mendefinisikan primary key
 
     //praktikum week 4
-    protected $fillable = ['level_id', 'username', 'nama', 'password', 'created_at', 'updated_at'];
+    protected $fillable = ['level_id', 'username', 'nama', 'password', 'created_at', 'updated_at', 'image'];
     //praktikum week 7b
     protected $hidden = ['password']; // jangan di tampilkan saat select 
     protected $casts = ['password' => 'hashed']; // casting password agar otomatis di hash
 
     public function level(): BelongsTo
     {
-        return $this->belongsTo(LevelModel::class,'level_id', 'level_id');
+        return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
+    }
+    protected function image(): Attribute
+    {
+        return Attribute::make(
+            get: fn($image) => url('/storage/posts/' . $image),
+        );
     }
 
     /**
@@ -41,7 +57,7 @@ class UserModel extends Authenticatable
     {
         return $this->level->level_kode == $role;
     }
-    
+
     /**
      * Mendapatkan kode role
      */
@@ -50,4 +66,3 @@ class UserModel extends Authenticatable
         return $this->level->level_kode;
     }
 }
-

@@ -21,7 +21,8 @@ use App\Http\Controllers\Api\UserController;
 |
 */
 
-Route::post('/register', RegisterController::class)->name('register');
+// Route::post('/register', RegisterController::class)->name('register');
+Route::post('/register1', RegisterController::class)->name('register1');
 Route::post('/login', LoginController::class)->name('login');
 Route::post('/logout', LogoutController::class)->name('logout');
 
